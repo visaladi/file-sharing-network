@@ -6,10 +6,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
+import javax.swing.JTable;
 import org.json.JSONException;
 import org.json.JSONObject;
+import swing.PanelStatus;
 
 public class DataReader {
+
+    public PanelStatus getStatus() {
+        return status;
+    }
 
     public int getFileID() {
         return fileID;
@@ -51,12 +57,14 @@ public class DataReader {
         this.accFile = accFile;
     }
 
-    public DataReader(File file) throws IOException {
+    public DataReader(File file, JTable table) throws IOException {
         //  r is mode file read only
         accFile = new RandomAccessFile(file, "r");
         this.file = file;
         this.fileSize = accFile.length();
         this.fileName = file.getName();
+        this.status = new PanelStatus();
+        this.table = table;
     }
 
     private int fileID;
@@ -64,6 +72,8 @@ public class DataReader {
     private long fileSize;
     private String fileName;
     private RandomAccessFile accFile;
+    private PanelStatus status;
+    private JTable table;
 
     public synchronized byte[] readFile() throws IOException {
         long filePointer = accFile.getFilePointer();
@@ -160,7 +170,9 @@ public class DataReader {
                     if (act) {
                         try {
                             //  This function will recursive until act = false
+                            showStatus((int) getPercentage());
                             sendingFile(socket);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -168,5 +180,10 @@ public class DataReader {
                 }
             }
         });
+    }
+
+    public void showStatus(int values) {
+        status.showStatus(values);
+        table.repaint();
     }
 }

@@ -1,10 +1,17 @@
 package data;
 
 import com.corundumstudio.socketio.SocketIOClient;
+import java.awt.Component;
 import java.io.IOException;
 import java.util.HashMap;
+import javax.swing.JTable;
+import swing.PanelStatus;
 
 public class DataClient {
+
+    public PanelStatus getStatus() {
+        return status;
+    }
 
     public SocketIOClient getClient() {
         return client;
@@ -22,9 +29,11 @@ public class DataClient {
         this.name = name;
     }
 
-    public DataClient(SocketIOClient client, String name) {
+    public DataClient(SocketIOClient client, String name, JTable table) {
         this.client = client;
         this.name = name;
+        this.status = new PanelStatus();
+        this.table = table;
     }
 
     public DataClient() {
@@ -35,13 +44,20 @@ public class DataClient {
     //  Key integer is fileID
     //  Use hash to store multy transfer
     private final HashMap<Integer, DataWriter> list = new HashMap<>();
+    private PanelStatus status;
+    private JTable table;
 
     public void addWrite(DataWriter data, int fileID) {
         list.put(fileID, data);
+        status.addItem(fileID, data.getFile().getName(), data.getMaxFileSize());
+        //  update table row height
+        autoRowHeight(table, 3);
     }
 
     public void writeFile(byte[] data, int fileID) throws IOException {
         list.get(fileID).writeFile(data);
+        status.updateStatus(fileID, (int) list.get(fileID).getPercentage());
+        table.repaint();
     }
 
     public void closeWriter(int fileID) throws IOException {
@@ -51,4 +67,18 @@ public class DataClient {
     public Object[] toRowTable(int row) {
         return new Object[]{this, row, name};
     }
+
+    private void autoRowHeight(JTable table, int... cols) {
+        for (int row = 0; row < table.getRowCount(); row++) {
+            int rowHeight = table.getRowHeight();
+            for (int col : cols) {
+                Component comp = table.prepareRenderer(table.getCellRenderer(row, col), row, col);
+                if (comp.getPreferredSize().height > rowHeight) {
+                    rowHeight = comp.getPreferredSize().height;
+                }
+            }
+            table.setRowHeight(row, rowHeight);
+        }
+    }
+
 }
