@@ -16,8 +16,11 @@ import data.DataClient;
 import data.DataFileSending;
 import data.DataInitFile;
 import data.DataWriter;
+import java.awt.Component;
 import java.io.File;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -31,6 +34,17 @@ public class Server extends javax.swing.JFrame {
      */
     public Server() {
         initComponents();
+        table.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
+                Object data = jtable.getValueAt(i, 0);
+                if (data instanceof DataClient) {
+                    return ((DataClient) data).getStatus();
+                } else {
+                    return super.getTableCellRendererComponent(jtable, o, bln, bln1, i, i1);
+                }
+            }
+        });
     }
 
     /**
@@ -63,9 +77,17 @@ public class Server extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Data", "No", "Name"
+                "Data", "No", "Name", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tableMouseReleased(evt);
@@ -77,6 +99,7 @@ public class Server extends javax.swing.JFrame {
             table.getColumnModel().getColumn(0).setPreferredWidth(0);
             table.getColumnModel().getColumn(0).setMaxWidth(0);
             table.getColumnModel().getColumn(1).setPreferredWidth(30);
+            table.getColumnModel().getColumn(3).setPreferredWidth(300);
         }
 
         cmdStart.setText("Start Server");
@@ -92,7 +115,7 @@ public class Server extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(cmdStart)))
@@ -122,7 +145,7 @@ public class Server extends javax.swing.JFrame {
             public void onConnect(SocketIOClient sioc) {
                 //  This method run when new client connected
                 //  Name not yet have
-                DataClient client = new DataClient(sioc, "");
+                DataClient client = new DataClient(sioc, "", table);
                 //  Add this data to table
                 addTableRow(client);
             }

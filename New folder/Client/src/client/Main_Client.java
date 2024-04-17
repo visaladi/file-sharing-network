@@ -9,9 +9,12 @@ import data.DataReader;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import java.awt.Component;
 import java.io.File;
 import java.net.URISyntaxException;
 import javax.swing.JFileChooser;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,6 +29,18 @@ public class Main_Client extends javax.swing.JFrame {
     public Main_Client() {
         initComponents();
         model = (DefaultTableModel) table.getModel();
+        table.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
+                Object data = jtable.getValueAt(i, 0);
+                if (data instanceof DataReader) {
+                    DataReader reader = (DataReader) data;
+                    return reader.getStatus();
+                } else {
+                    return super.getTableCellRendererComponent(jtable, o, bln, bln1, i, i1);
+                }
+            }
+        });
     }
 
     /**
@@ -154,7 +169,7 @@ public class Main_Client extends javax.swing.JFrame {
             File[] files = ch.getSelectedFiles();
             for (File file : files) {
                 try {
-                    DataReader reader = new DataReader(file);
+                    DataReader reader = new DataReader(file, table);
                     model.addRow(reader.toRowTable(table.getRowCount() + 1));
                     reader.startSend(client);
                 } catch (Exception e) {
