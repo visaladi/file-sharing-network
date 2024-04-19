@@ -68,6 +68,10 @@ public class DataWriter {
         return percentage;
     }
 
+    public long getFileLength() throws IOException {
+        return accFile.length();
+    }
+
     private String convertFile(double bytes) {
         String[] fileSizeUnits = {"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
         String sizeToReturn;
