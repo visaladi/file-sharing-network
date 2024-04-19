@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import swing.CellEditor;
 
 /**
  *
@@ -41,6 +42,7 @@ public class Main_Client extends javax.swing.JFrame {
                 }
             }
         });
+        table.getColumnModel().getColumn(4).setCellEditor(new CellEditor());
     }
 
     /**
@@ -79,7 +81,7 @@ public class Main_Client extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

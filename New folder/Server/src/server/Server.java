@@ -18,6 +18,7 @@ import data.DataInitFile;
 import data.DataWriter;
 import java.awt.Component;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -186,6 +187,19 @@ public class Server extends javax.swing.JFrame {
                 }
             }
         });
+        server.addEventListener("r_f_l", Integer.class, new DataListener<Integer>() {
+            @Override
+            public void onData(SocketIOClient sioc, Integer t, AckRequest ar) throws Exception {
+                try {
+                    long length = getFileLength(sioc, t);
+                    if (length > 0) {
+                        ar.sendAckData(length + "");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         server.start();
     }//GEN-LAST:event_cmdStartActionPerformed
 
@@ -280,6 +294,16 @@ public class Server extends javax.swing.JFrame {
                 break;
             }
         }
+    }
+
+    private long getFileLength(SocketIOClient client, int fileID) throws IOException {
+        for (int i = 0; i < table.getRowCount(); i++) {
+            DataClient data = (DataClient) table.getValueAt(i, 0);
+            if (data.getClient() == client) {
+                return data.getFileLength(fileID);
+            }
+        }
+        return 0;
     }
     private int fileID;
 

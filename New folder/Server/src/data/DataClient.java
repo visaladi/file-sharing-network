@@ -81,4 +81,8 @@ public class DataClient {
         }
     }
 
+    public long getFileLength(int fileID) throws IOException {
+        return list.get(fileID).getFileLength();
+    }
+
 }

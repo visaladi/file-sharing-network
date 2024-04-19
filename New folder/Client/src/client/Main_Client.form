@@ -93,7 +93,7 @@
                 <Column editable="false" title="No" type="java.lang.Object"/>
                 <Column editable="false" title="File Name" type="java.lang.Object"/>
                 <Column editable="false" title="Size" type="java.lang.Object"/>
-                <Column editable="false" title="Status" type="java.lang.Object"/>
+                <Column editable="true" title="Status" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
