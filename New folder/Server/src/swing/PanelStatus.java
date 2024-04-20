@@ -11,7 +11,7 @@ import java.util.HashMap;
  *
  * @author RAVEN
  */
-public class PanelStatus extends javax.swing.JPanel {
+public class PanelStatus extends javax.swing.JLayeredPane {
 
     /**
      * Creates new form PanelStatus
@@ -44,6 +44,7 @@ public class PanelStatus extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setOpaque(false);
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
     }// </editor-fold>//GEN-END:initComponents
 

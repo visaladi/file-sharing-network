@@ -85,4 +85,9 @@ public class DataClient {
         return list.get(fileID).getFileLength();
     }
 
+    public DataFileServer getDataFileServer(int fileID) {
+        DataWriter data = list.get(fileID);
+        String fileName = data.getFile().getName();
+        return new DataFileServer(fileID, fileName.substring(fileName.indexOf("-", 0) + 1, fileName.length()), data.getMaxFileSize(), data.getFile());
+    }
 }

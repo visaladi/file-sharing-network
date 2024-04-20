@@ -14,11 +14,14 @@ import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import data.DataClient;
 import data.DataFileSending;
+import data.DataFileServer;
 import data.DataInitFile;
 import data.DataWriter;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -136,6 +139,7 @@ public class Server extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private final int DEFAULT_PORT = 9999;
+    private final List<DataFileServer> listFiles = new ArrayList<>();
     private void cmdStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdStartActionPerformed
         Configuration configuration = new Configuration();
         configuration.setPort(DEFAULT_PORT);
@@ -183,7 +187,10 @@ public class Server extends javax.swing.JFrame {
                     //  file finish
                     //  you can remove this code
                     ar.sendAckData(false);
-                    closeFile(sioc, t);
+                    DataFileServer data = closeFile(sioc, t);
+                    if (data != null) {
+                        server.getBroadcastOperations().sendEvent("new_file", data);
+                    }
                 }
             }
         });
@@ -197,6 +204,14 @@ public class Server extends javax.swing.JFrame {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+            }
+        });
+        server.addEventListener("request", String.class, new DataListener<String>() {
+            @Override
+            public void onData(SocketIOClient sioc, String t, AckRequest ar) throws Exception {
+                if (t.equals("list_file")) {
+                    ar.sendAckData(listFiles.toArray());
                 }
             }
         });
@@ -282,18 +297,22 @@ public class Server extends javax.swing.JFrame {
         return !error;
     }
 
-    private void closeFile(SocketIOClient client, DataFileSending file) {
+    private DataFileServer closeFile(SocketIOClient client, DataFileSending file) {
+        DataFileServer fileServer = null;
         for (int i = 0; i < table.getRowCount(); i++) {
             DataClient data = (DataClient) table.getValueAt(i, 0);
             if (data.getClient() == client) {
                 try {
                     data.closeWriter(file.getFileID());
+                    fileServer = data.getDataFileServer(file.getFileID());
+                    listFiles.add(fileServer);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             }
         }
+        return fileServer;
     }
 
     private long getFileLength(SocketIOClient client, int fileID) throws IOException {

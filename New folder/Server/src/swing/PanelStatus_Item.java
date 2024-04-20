@@ -1,6 +1,6 @@
 package swing;
 
-public class PanelStatus_Item extends javax.swing.JPanel {
+public class PanelStatus_Item extends javax.swing.JLayeredPane {
 
     public PanelStatus_Item() {
         initComponents();
@@ -22,6 +22,8 @@ public class PanelStatus_Item extends javax.swing.JPanel {
         pro = new javax.swing.JProgressBar();
         lbFileName = new javax.swing.JLabel();
         lbSize = new javax.swing.JLabel();
+
+        setOpaque(false);
 
         pro.setStringPainted(true);
 
