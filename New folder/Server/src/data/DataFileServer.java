@@ -37,6 +37,14 @@ public class DataFileServer {
         this.fileSize = fileSize;
     }
 
+    public long getFileSizeLength() {
+        return fileSizeLength;
+    }
+
+    public void setFileSizeLength(long fileSizeLength) {
+        this.fileSizeLength = fileSizeLength;
+    }
+
     public File getOutPutPath() {
         return outPutPath;
     }
@@ -45,10 +53,11 @@ public class DataFileServer {
         this.outPutPath = outPutPath;
     }
 
-    public DataFileServer(int fileID, String fileName, String fileSize, File outPutPath) {
+    public DataFileServer(int fileID, String fileName, String fileSize, long fileSizeLength, File outPutPath) {
         this.fileID = fileID;
         this.fileName = fileName;
         this.fileSize = fileSize;
+        this.fileSizeLength = fileSizeLength;
         this.outPutPath = outPutPath;
     }
 
@@ -58,5 +67,6 @@ public class DataFileServer {
     private int fileID;
     private String fileName;
     private String fileSize;
+    private long fileSizeLength;
     private File outPutPath;
 }
