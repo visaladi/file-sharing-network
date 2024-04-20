@@ -16,10 +16,12 @@ import data.DataClient;
 import data.DataFileSending;
 import data.DataFileServer;
 import data.DataInitFile;
+import data.DataRequestFile;
 import data.DataWriter;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
@@ -215,6 +217,19 @@ public class Server extends javax.swing.JFrame {
                 }
             }
         });
+        server.addEventListener("request_file", DataRequestFile.class, new DataListener<DataRequestFile>() {
+            @Override
+            public void onData(SocketIOClient sioc, DataRequestFile t, AckRequest ar) throws Exception {
+                try {
+                    byte b[] = getFile(t);
+                    if (b != null) {
+                        ar.sendAckData(b);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         server.start();
     }//GEN-LAST:event_cmdStartActionPerformed
 
@@ -303,9 +318,9 @@ public class Server extends javax.swing.JFrame {
             DataClient data = (DataClient) table.getValueAt(i, 0);
             if (data.getClient() == client) {
                 try {
-                    data.closeWriter(file.getFileID());
                     fileServer = data.getDataFileServer(file.getFileID());
                     listFiles.add(fileServer);
+                    data.closeWriter(file.getFileID());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -329,6 +344,29 @@ public class Server extends javax.swing.JFrame {
     private synchronized int generateFileID() {
         fileID++;
         return fileID;
+    }
+
+    private byte[] getFile(DataRequestFile data) throws IOException {
+        for (DataFileServer d : listFiles) {
+            if (d.getFileID() == data.getFileID()) {
+                RandomAccessFile accFile = new RandomAccessFile(d.getOutPutPath(), "r");
+                accFile.seek(data.getLength());
+                long filePointer = data.getLength();
+                long fileSize = d.getFileSizeLength();
+                if (filePointer != fileSize) {
+                    int max = 2000;
+                    //  2000 is max send file per package
+                    //  we spite it to send large file
+                    long length = filePointer + max >= fileSize ? fileSize - filePointer : max;
+                    byte[] b = new byte[(int) length];
+                    accFile.read(b);
+                    return b;
+                } else {
+                    return null;
+                }
+            }
+        }
+        return null;
     }
 
     /**

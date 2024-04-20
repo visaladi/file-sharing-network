@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 import swing.CellEditor;
+import swing.CellEditorFile;
 
 /**
  *
@@ -48,6 +49,14 @@ public class Main_Client extends javax.swing.JFrame {
             }
         });
         table.getColumnModel().getColumn(4).setCellEditor(new CellEditor());
+        tableFile.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable jtable, Object o, boolean bln, boolean bln1, int i, int i1) {
+                DataFileServer data = (DataFileServer) jtable.getValueAt(i, 0);
+                return data.getItem();
+            }
+        });
+        tableFile.getColumnModel().getColumn(4).setCellEditor(new CellEditorFile());
     }
 
     /**
@@ -159,7 +168,7 @@ public class Main_Client extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -229,7 +238,7 @@ public class Main_Client extends javax.swing.JFrame {
                 public void call(Object... os) {
                     //  Add new File
                     try {
-                        addFile(new DataFileServer((JSONObject) os[0]));
+                        addFile(new DataFileServer((JSONObject) os[0], table, client));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -243,7 +252,7 @@ public class Main_Client extends javax.swing.JFrame {
                 public void call(Object... os) {
                     try {
                         for (Object o : os) {
-                            addFile(new DataFileServer((JSONObject) o));
+                            addFile(new DataFileServer((JSONObject) o, table, client));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
