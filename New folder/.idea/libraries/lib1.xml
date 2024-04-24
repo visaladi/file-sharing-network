@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="lib1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Client/lib/engine.io-client-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Client/lib/socket.io-client-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Client/lib/okio-1.15.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Client/lib/json-20090211.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Client/lib/okhttp-3.12.12.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
