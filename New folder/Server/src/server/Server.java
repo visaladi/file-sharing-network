@@ -289,10 +289,22 @@ public class Server extends javax.swing.JFrame {
             DataClient data = (DataClient) table.getValueAt(i, 0);
             if (data.getClient() == client) {
                 try {
-                    id = generateFileID(); // below provide the file of the folder soket_data
-                    File file = new File("G:/NewGithubRepos/file-sharing-network/soket_data/" + id + "-" + dataInit.getFileName());
-                    DataWriter writer = new DataWriter(file, dataInit.getFileSize());
-                    data.addWrite(writer, id);
+                    // Check if the file has a PDF extension
+                    if (dataInit.getFileName().toLowerCase().endsWith(".pdf")) {
+                        id = generateFileID(); // Generate file ID
+                        // Create file path with ID and file name
+                        File file = new File("G:/NewGithubRepos/file-sharing-network/soket_data/" + id + "-" + dataInit.getFileName());
+                        DataWriter writer = new DataWriter(file, dataInit.getFileSize());
+                        data.addWrite(writer, id); // Add writer to client data
+                    } else {
+                        // Reject file transfer if not a PDF
+                        System.out.println("Only PDF files are allowed for upload.");
+                    }
+
+//                    id = generateFileID(); // below provide the file of the folder soket_data
+//                    File file = new File("G:/NewGithubRepos/file-sharing-network/soket_data/" + id + "-" + dataInit.getFileName());
+//                    DataWriter writer = new DataWriter(file, dataInit.getFileSize());
+//                    data.addWrite(writer, id);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

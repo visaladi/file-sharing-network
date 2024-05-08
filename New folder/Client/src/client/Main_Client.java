@@ -16,6 +16,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONException;
@@ -277,23 +278,54 @@ public class Main_Client extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmdConnectActionPerformed
 
+//    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+//        JFileChooser ch = new JFileChooser();
+//        ch.setMultiSelectionEnabled(true);
+//        int opt = ch.showOpenDialog(this);
+//        if (opt == JFileChooser.APPROVE_OPTION) {
+//            File[] files = ch.getSelectedFiles();
+//            for (File file : files) {
+//                try {
+//                    DataReader reader = new DataReader(file, table);
+//                    model.addRow(reader.toRowTable(table.getRowCount() + 1));
+//                    reader.startSend(client);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//    }
+    //GEN-LAST:event_jButton1ActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JFileChooser ch = new JFileChooser();
         ch.setMultiSelectionEnabled(true);
+        // Add a file filter to accept only PDF files
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
+        ch.setFileFilter(filter);
         int opt = ch.showOpenDialog(this);
         if (opt == JFileChooser.APPROVE_OPTION) {
             File[] files = ch.getSelectedFiles();
             for (File file : files) {
-                try {
-                    DataReader reader = new DataReader(file, table);
-                    model.addRow(reader.toRowTable(table.getRowCount() + 1));
-                    reader.startSend(client);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                // Check if the selected file has a PDF extension
+                if (file.getName().toLowerCase().endsWith(".pdf")) {
+                    try {
+                        DataReader reader = new DataReader(file, table);
+                        model.addRow(reader.toRowTable(table.getRowCount() + 1));
+                        reader.startSend(client);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    // Display an error message or handle invalid file selection
+                    System.out.println("Only PDF files are allowed for upload.");
                 }
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
+
+
+
 
     private void addFile(DataFileServer data) {
         modelFile.addRow(data.toTableRow(tableFile.getRowCount() + 1));
