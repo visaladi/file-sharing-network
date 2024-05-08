@@ -29,6 +29,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+
+
 /**
  *
  * @author RAVEN
@@ -143,7 +145,7 @@ public class Server extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private final int DEFAULT_PORT = 9999;
+    private final int DEFAULT_PORT = 4040;
     private final List<DataFileServer> listFiles = new ArrayList<>();
     private SocketIOServer server;
     private void cmdStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdStartActionPerformed
