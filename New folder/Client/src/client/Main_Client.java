@@ -24,7 +24,7 @@ import swing.CellEditor;
 import swing.CellEditorFile;
 
 
-// go to rub tab and click edit configurations. then add allow multiple
+// go to run tab and click edit configurations. then add allow multiple
 
 /**
  *
