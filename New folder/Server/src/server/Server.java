@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-
+// go to rub tab and click edit configurations. then add allow multiple
 
 /**
  *
