@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/jackson-databind-2.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/netty-socketio-1.7.18.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/netty-resolver-4.1.44.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/netty-codec-http-4.1.44.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/netty-transport-native-epoll-4.1.44.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/netty-transport-native-unix-common-4.1.44.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/jackson-annotations-2.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/netty-common-4.1.44.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/netty-handler-4.1.44.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/jackson-core-2.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/netty-codec-4.1.44.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/netty-buffer-4.1.44.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/netty-transport-4.1.44.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/New folder/Server/lib/slf4j-api-1.7.21.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

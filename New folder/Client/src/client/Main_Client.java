@@ -23,6 +23,9 @@ import org.json.JSONObject;
 import swing.CellEditor;
 import swing.CellEditorFile;
 
+
+// go to run tab and click edit configurations. then add allow multiple
+
 /**
  *
  * @author RAVEN
@@ -224,7 +227,7 @@ public class Main_Client extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    private final int DEFAULT_PORT = 9999;  //  Port must the same server port
+    private final int DEFAULT_PORT = 4040;  //  Port must the same server port
     private final DefaultTableModel model;
     private final DefaultTableModel modelFile;
     private Socket client;
