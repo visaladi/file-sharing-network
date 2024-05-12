@@ -7,10 +7,7 @@ package data;
 
 import java.io.File;
 
-/**
- *
- * @author RAVEN
- */
+
 public class DataFileServer {
 
     public int getFileID() {

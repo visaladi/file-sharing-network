@@ -73,8 +73,8 @@ public class PanelStatus extends javax.swing.JPanel {
         this.event = event;
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+
     private javax.swing.JButton cmd;
     private javax.swing.JProgressBar pro;
-    // End of variables declaration//GEN-END:variables
+
 }
