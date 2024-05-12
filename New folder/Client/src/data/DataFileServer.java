@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package data;
 
 import io.socket.client.Ack;
@@ -19,7 +15,7 @@ import swing.PanelStatus_Item;
 
 /**
  *
- * @author RAVEN
+ * @author Visal
  */
 public class DataFileServer {
 
@@ -133,12 +129,11 @@ public class DataFileServer {
     private boolean pause;
 
     private void saveFile() throws IOException, JSONException {
-        //  Start Write file here
-        //  Need file Size
+
         if (writer == null) {
             writer = new DataWriter(outPutPath, fileSizeLength);
         }
-        //  Need socket to request
+
         JSONObject data = new JSONObject();
         data.put("fileID", fileID);
         data.put("length", writer.getFileLength());

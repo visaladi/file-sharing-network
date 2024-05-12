@@ -60,7 +60,7 @@ public class DataReader {
     }
 
     public DataReader(File file, JTable table) throws IOException {
-        //  r is mode file read only
+
         accFile = new RandomAccessFile(file, "r");
         this.file = file;
         this.fileSize = accFile.length();
@@ -71,7 +71,7 @@ public class DataReader {
             public void actionPerformed(ActionEvent ae) {
                 if (!status.isPause() && pause) {
                     pause = false;
-                    //  Request continue file length from server by file id
+
                     client.emit("r_f_l", fileID, new Ack() {
                         @Override
                         public void call(Object... os) {
@@ -86,7 +86,7 @@ public class DataReader {
                             }
                         }
                     });
-                    //  Send file
+
 
                 }
             }
@@ -157,14 +157,13 @@ public class DataReader {
         socket.emit("send_file", data, new Ack() {
             @Override
             public void call(Object... os) {
-                //   this call back function
-                //   Index 0 Boolean, Index 1 FileID
+
                 if (os.length > 0) {
                     boolean action = (boolean) os[0];
                     if (action) {
-                        //  fileID generate by server then return back with this function
+
                         fileID = (int) os[1];
-                        //  starting send file
+
                         try {
                             sendingFile(socket);
                         } catch (Exception e) {
@@ -193,15 +192,12 @@ public class DataReader {
         socket.emit("sending", data, new Ack() {
             @Override
             public void call(Object... os) {
-                //  Call back function to sending more file
-                //  This function meaning the server has receive file we has sending
-                //  So we need send more file until we finish
-                //  We response Boolean true or false
+
                 if (os.length > 0) {
                     boolean act = (boolean) os[0];
                     if (act) {
                         try {
-                            //  This function will recursive until act = false
+
                             if (!status.isPause()) {
                                 showStatus((int) getPercentage());
                                 sendingFile(socket);

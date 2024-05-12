@@ -64,7 +64,7 @@ public class PanelStatus_Item extends javax.swing.JLayeredPane {
         } else if (cmd.getName().equals("S")) {
             eventSave.actionPerformed(evt);
         }
-    }//GEN-LAST:event_cmdActionPerformed
+    }
 
     private ActionListener eventSave;
     private ActionListener eventPause;
@@ -91,8 +91,8 @@ public class PanelStatus_Item extends javax.swing.JLayeredPane {
         cmd.setName("R");
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+
     private javax.swing.JButton cmd;
     private javax.swing.JProgressBar pro;
-    // End of variables declaration//GEN-END:variables
+
 }
